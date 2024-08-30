@@ -1,0 +1,272 @@
+% Unofficial University of Cambridge Poster Template
+% https://github.com/andiac/gemini-cam
+% a fork of https://github.com/anishathalye/gemini
+% also refer to https://github.com/k4rtik/uchicago-poster
+
+\documentclass[final]{beamer}
+
+% ====================
+% Packages
+% ====================
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[size=a0]{beamerposter}
+\usetheme{gemini}
+\usecolortheme{cam}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\usepackage{anyfontsize}
+
+
+
+% ====================
+% Lengths
+% ====================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+% (N+1)*\sepwidth + N*\colwidth = \paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\setlength{\sepwidth}{0.025\paperwidth}
+\setlength{\colwidth}{0.3\paperwidth}
+
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+
+\title{The Modelling of Dynamical Systems: S-I-R Model}
+
+\author{Jordan Pang}
+
+\institute[shortinst]{Department of Mathematics}
+
+% ====================
+% Footer (optional)
+% ====================
+
+% (can be left out to remove footer)
+
+% ====================
+% Logo (optional)
+% ====================
+
+% use this to include logos on the left and/or right side of the header:
+% \logoright{\includegraphics[height=7cm]{logo1.pdf}}
+% \logoleft{\includegraphics[height=7cm]{logo2.pdf}}
+
+% ====================
+% Body
+% ====================
+
+\begin{document}
+
+% Refer to https://github.com/k4rtik/uchicago-poster
+% logo: https://www.cam.ac.uk/brand-resources/about-the-logo/logo-downloads
+\addtobeamertemplate{headline}{}
+{
+    \begin{tikzpicture}[remember picture,overlay]
+      \node [anchor=north east, outer sep=3cm] at ([xshift=0.0cm,yshift=1.0cm]current page.north east)
+      {\includegraphics[height=4.5cm]{logos/logo.png}}; 
+    \end{tikzpicture}
+}
+
+
+
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{The Classical S-I-R Model}
+
+  We consider a simple mathematical model, designed to provide an insight into the evolution of a disease, allowing us to analyse the level of threat posed to everyday society by diseases. Here, we introduce the following definitions [1]:
+  \begin{itemize}
+      \item $S(t)$ - Susceptible individuals: Those who have not contracted the disease, but can be infected.
+      \item $I(t)$ - Infected individuals: Those who have the disease and could infect other individuals.
+      \item $R(t)$ - Removed individuals: Those who have either recovered or passed away from the disease.
+      
+  \end{itemize}
+
+  In this model, we make some simplifications by employing assumptions: the total population, $S(t) + I(t) + R(t) = N$ being constant; homogeneous mixing of the susceptible and infected populations [1]. With this, Kermack and McKendrick constructed the following system of ODEs:
+  \begin{align}
+  \frac{\textrm{d}S(t)}{\textrm{d}t} &= -aS(t)I(t),\\
+  \frac{\textrm{d}I(t)}{\textrm{d}t} &= aS(t)I(t) - bI(t),\\
+  \frac{\textrm{d}R(t)}{\textrm{d}t} &= bI(t)
+  \end{align}
+  
+  where \textit{a}, \textit{b} are the transmission rate and the removal rate constant respectively.
+
+  
+  \end{block}
+
+  \begin{block}{Stable and Unstable Points}
+
+  Begin by exploring the stability and instability of fixed points of the non-linear system of ODEs, focusing on (1) and (2). The fixed points are given when $-aS(t)I(t) = 0$ and $aS(t)I(t) - bI(t) = 0$ are both satisfied. We solve these to find that the equilibrium points ($S^{*}(t)$, $I^{*}(t)$) are in the forms: ($0$, $0$) and ($\frac{b}{a}$, $0$). Now we consider local points near the equilibrium points, at ($S^{*}(t) + \epsilon \hspace{4pt}u(t)$, $I^{*}(t) + \tilde{\epsilon} \hspace{4pt}v(t)$) and calculate the Jacobian transformation to give: 
+  \[J = \left( \begin{array}{cc}
+  -aI(t) & -aS(t)\\
+   aI(t) & aS(t) - b
+  \end{array} \right)
+  \]
+
+From $J$, we can calculate the eigenvalues and explore different cases of values of \textit{a} and \textit{b} using initial conditions: $S(0)$ and $I(0)$:
+
+\begin{gather}
+\lambda_{1} = \frac{1}{2} \left(-\sqrt{({aI}-{aS}+b)^2-4 {aI} b}-{aI}+{aS}-b\right)\\
+\lambda_{2} = \frac{1}{2} \left(\sqrt{({aI}-{aS}+b)^2-4 {aI} b}-{aI}+{aS}-b\right)
+\end{gather}
+
+Before we explore this, we must evaluate our eigenvalues at the equilibrium points that we found earlier:
+
+\begin{itemize}
+    \item For our first equilibrium point at $(0,0)$, we obtain $\lambda_{1} = -b$, $\lambda_{2} = 0$ and since $\lambda_{1} \neq{0}$, this point will be stable for $\lambda_{1} < 0$ and unstable for $\lambda_{1} > 0$. This is true since we would have points moving parallel to the eigenvector of $\lambda_{1}$, but towards $(0,0)$ if $\lambda_{1} < 0$ or away from $(0,0)$ if $\lambda_{1} > 0$.
+
+    \item For our second equilibrium point at $(\frac{b}{a}, 0)$, we obtain $\lambda_{1} = 0$ and $\lambda_{2} = 0$, which implies that we require further analysis to determine the stability of this point. One way to do this is to look for nullclines, plot the fixed points, look at the vector field at different points of $S(t)$ and $I(t)$ to see the direction points tend towards, while using the property that S(t) + $I(t) + R(t) = N$ must remain constant.
+\end{itemize}
+
+  \end{block}
+
+
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{Phase Portraits}
+
+  We postulate a scenario where we are in a village of $10$ people and someone contracts a disease, whilst visiting a large city. They carried the disease back to the village, hence the initial condition is that one person out of $10$ was infected, giving $S(0) = 9$, $I(0) = 1$, $R(0) = 0$.
+  
+  For all of the following cases, we let transmission rate $a = 0.2$:
+
+  
+  \textbf{Case 1} - $b > 0$: This gives $\lambda_{1} < 0$, so the fixed point $(0,0)$ will be stable. Take removal rate, $b = 0.1$. To determine stability of the fixed point $(\frac{1}{2}, 0)$, we find the nullclines, by finding such $S(t)$ and $I(t)$ so that at least one of (1) and (2) equal to zero:  $S(t) = 0$, $I(t) = 0$, $S = \frac{1}{2}$. Plotting the vector field and evaluating the direction at different points, we deduce that $(\frac{1}{2},0)$ is an unstable point.
+  
+  \textbf{Case 2} - $b = 0$: This gives $\lambda_{1} = 0$, so we use the nullclines $S(t) = 0$, $I(t) = 0$ to plot the vector field and deduce that $(0,0)$ is an unstable fixed point, since no solutions towards it. $(0,0)$ is the only fixed point.
+
+  \textbf{Case 3} - $b < 0$: This gives $\lambda_{1} > 0$ so the fixed point (0,0) will be unstable. Take removal rate, $b = - 0.1$. We find that the other fixed point is $(-\frac{1}{2},0)$, which is not a point we can obtain, given our model with $S(t)$,$I(t) > 0$. Nevertheless, we find the nullclines of $S(t) = 0$, $I(t) = 0$, $S = - \frac{1}{2}$ and plot the vector field to deduce that it is an unstable point.
+
+    \begin{minipage}{330pt}
+        \includegraphics[width=330pt]{Images/3 - Case 1.png}
+        \begin{center}
+            \caption{\small Case 1}
+        \end{center}
+    \end{minipage}
+    \begin{minipage}{330pt}
+        \includegraphics[width=330pt]{Images/3 - Case 2.png}
+        \begin{center}
+            \caption{\small Case 2}
+        \end{center}
+    \end{minipage}
+    \begin{minipage}{330pt}
+        \includegraphics[width=330pt]{Images/3 - Case 3.png}
+        \begin{center}
+            \caption{\small Case 3}
+        \end{center}
+    \end{minipage}
+
+  %   \begin{minipage}{9cm}
+  %       bbbbbbbadhsajdsajkfgkajfjgekfhkqhfkqkfh
+  %   \end{minipage}
+    
+  
+  % \includegraphics[width=0.32\textwidth]{Images/3 - Case 2.png}
+  % \includegraphics[width=0.32\textwidth]{Images/3 - Case 3.png}
+  
+  \end{block}
+
+  \begin{block}{Process of an Epidemic}
+
+  First, we ask ourselves: will the disease spread? We must assume that there is a known cure for the disease and refer to case 1, where $b > 0$, so that when $I(t)$ reduces, $R(t)$ increases. Note that $S(t), I(t), a > 0$ and we show [3]:
+  \begin{align*}
+  \frac{\mathrm{d}S(t)}{\mathrm{d}t} &= -aS(t)I(t)\\
+  \Rightarrow \frac{\mathrm{d}S(t)}{\mathrm{d}t} &< 0\\
+  \Rightarrow S(t) &\le S(0)
+  \end{align*}
+  Also, notice that (2) can be rearranged by $\frac{\textrm{d}I(t)}{\textrm{d}t} = aS(t)I(t) - bI(t) = (aS(t) - b)I(t)$. Substituting the initial condition, $S(0) = S_{0}$ into $\frac{\textrm{d}I(t)}{\textrm{d}t} = (aS(t) - b)I(t)$, we see that, for $\frac{\mathrm{d}I(t)}{\mathrm{d}t}$ to increase, $aS(t) - b > 0$ must be satisfied, implying a spread of disease. So $S_{0} > \frac{b}{a} = \frac{1}{q}$, where q is the contact ratio, defined as the fraction of the population who comes into contact with an infected, during period of being infectious [3]. Rearranging this, we get the basic reproductive number, $R_{0} = \frac{aS_{0}}{b}$, representing the number of secondary infections in the population caused from one initial primary infection, with $R_{0} > 1$ leading to an epidemic [3].
+
+  Furthermore, we can deduce the maximum number of infectives in a given time by setting $\frac{\textit{d}I(t)}{\textit{d}S(t)} = 0$, and solve by separating variables [2] to get the following: $I_{max} = I_{0} + S_{0} - \frac{1}{q}(1 + ln(qS_{0}))$. An example of a plot of this is shown in Figure 1.
+
+  
+
+  \end{block}
+
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+   
+    \begin{minipage}{370pt}
+        \vspace{1.5cm}
+        \includegraphics[width=400pt]{Images/Infectives Plot.png}
+        \begin{center}
+            \caption{\small Figure 1}
+        \end{center}
+    \end{minipage}
+    \hspace{7cm}
+    \begin{minipage}{335pt}
+        \includegraphics[width=335pt]{Images/SEIR Phase Portrait.png}
+        \begin{center}
+            \vspace{-0.5cm}
+            \caption{\small Figure 2}
+        \end{center}
+    \end{minipage}
+
+
+
+  \begin{block}{The S-E-I-R Model}
+
+  Now, we explore a variation of the S-I-R model, which introduces a new parameter, $E(t)$: exposed individuals - those who have the disease but cannot yet infect others. As a result, (1), (2), (3) have all been altered [4]:
+  \begin{align}
+  \frac{\textrm{d}S(t)}{\textrm{d}t} &= \mu - (\alpha I(t) + \mu + \nu)S(t),\\
+  \frac{\textrm{d}E(t)}{\textrm{d}t} &= \alpha I(t)S(t) - (\beta + \mu)E(t),\\
+  \frac{\textrm{d}I(t)}{\textrm{d}t} &= \beta E(t) - (\mu_{i} + \delta + \mu)I(t),\\
+  \frac{\textrm{d}R(t)}{\textrm{d}t} &= \delta I(t) + \nu S(t) - \mu R(t)
+  \end{align}
+  where $\mu$ - rate of non-diseased deaths, $\alpha$ - rate of change from $S(t)$ to $E(t)$, $\beta$ - rate of change from $E(t)$ to $I(t)$, $\mu_{i}$ - rate of deaths by disease, $\delta$ - rate of change from $I(t)$ to $R(t)$, $\nu$ - rate of susceptibles vaccinated.
+
+  Similar to before, we can explore stability and instability of fixed points of this new dynamical system. We set each $\frac{\textrm{d}S(t)}{\textrm{d}t} = 0$, $\frac{\textrm{d}E(t)}{\textrm{d}t} = 0$, $\frac{\textrm{d}I(t)}{\textrm{d}t} = 0$, $\frac{\textrm{d}R(t)}{\textrm{d}t} = 0$. There exists two sets of fixed points:
+  \begin{itemize}
+      \item Free-disease equilibrium points, where $E(t) = I(t) = 0$, at $(\frac{\mu}{\mu + \nu}, 0, 0, \frac{\nu}{\mu + \nu})$
+      \item Endemic equilibrium points, where $S(t), E(t), I(t), R(t) \neq 0$, at $(\frac{(\mu_{i} + \delta + \mu)(\beta + \mu)}{\alpha \beta}$\\
+      $, \frac{\alpha \beta \mu - (\mu_{i} + \delta + \mu)(\mu + \nu)}{\alpha \beta}, \frac{\alpha \beta \mu - (\mu_{i} + \delta +\mu)(\mu + \nu)(\beta + \mu)}{\alpha (\mu_{i} + \delta + \mu)(\beta + \mu)}, \frac{\delta \alpha \beta^{2} \mu - \beta (\mu_{i} + \delta + \mu)(\mu + \nu)(\beta + \mu) - \nu ((\mu_{i} + \delta + \mu)(\beta + \mu))^{2}}{\beta \alpha^{2}(\mu_{i} + \delta + \mu)(\beta + \mu)})$
+    \end{itemize}
+      Then we calculate the Jacobian matrix as:
+     \[J = \left( \begin{array}{cccc}
+  - (\alpha I(t) + \mu + \nu) & 0 & \alpha S(t)& 0\\
+   aI(t) & - (\mu +\beta) & \alpha S(t)& 0\\
+   0 & \beta & -(\mu_{i} + \delta + \mu) & 0\\
+   \nu & 0 & \delta & -\mu
+   
+  \end{array} \right)
+  \]
+
+  The eigenvalues can be calculated from the characteristic polynomial of $J$:  \\
+  $
+  \lambda^{4} + (\mu + (\mu + \nu) + (\mu + \beta) + (\mu_{i} + \delta + \mu))\lambda^{3} + \cdots + \mu (\mu + \nu)(\mu + \beta)(\frac{\alpha \beta \mu}{\mu + \nu}) - \mu (\mu + \nu)(\frac{\alpha \beta \mu}{\mu + \nu}) = 0
+  $. Figure 2 shows an example of a phase portrait of this dynamical system with the following parameter values: $\mu = 0.1$, $\alpha = 0.2$, $\beta = 0.3$, $\mu_{i} = 0.05$, $\delta = 0.1$, $\nu = 0.05$.
+  \end{block}
+
+  \begin{block}{References}
+  \vspace{1pt}
+    \nocite{*}
+    \footnotesize{\bibliographystyle{unsrt}\bibliography{poster}}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+\end{columns}
+\end{frame}
+
+\end{document}
